@@ -1,0 +1,33 @@
+how to join two DataFrames using PySpark:
+=========================================
+
+
+from pyspark.sql import SparkSession
+
+# Create a SparkSession
+spark = SparkSession.builder \
+.appName("Joining DataFrames with PySpark") \
+.getOrCreate()
+
+# Create DataFrame 1
+data1 = [("John", 25), ("Alice", 30), ("Bob", 35)]
+df1 = spark.createDataFrame(data1, ["Name", "Age"])
+
+# Create DataFrame 2
+data2 = [("John", "Engineer"), ("Alice", "Doctor"), ("Charlie", "Artist")]
+df2 = spark.createDataFrame(data2, ["Name", "Occupation"])
+
+# Join DataFrames on the "Name" column
+joined_df = df1.join(df2, "Name", "inner").orderBy("Name")
+
+# Show the joined DataFrame
+joined_df.show()
+
+
+Explanation:
+
+- Import SparkSession: Import the SparkSession class from the pyspark.sql module.
+- Create SparkSession: Create a SparkSession object named spark using the builder pattern.
+- Create DataFrames: Create two DataFrames, df1 and df2, using the createDataFrame method. These DataFrames contain sample data with columns “Name” and “Age” for df1, and “Name” and “Occupation” for df2.
+- Join DataFrames: Use the join method on one of the DataFrames (df1 in this case) to join it with the other DataFrame (df2). The parameters for the join method are the name of the other DataFrame (df2), the column to join on (“Name” in this case), and the type of join (“inner” in this case, but you can use other types like “left”, “right”, or “outer”).
+- Show Joined DataFrame: Use the show method to display the contents of the joined DataFrame (joined_df). This prints the DataFrame with the columns from both DataFrames joined on the specified column (“Name” in this case).
